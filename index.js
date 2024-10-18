@@ -9,6 +9,7 @@ const cookieParser = require("cookie-parser");
 const session = require("express-session");
 //Nhúng express flash (thông báo)
 const flash = require("express-flash");
+const path = require("path");
 
 //Nhúng env
 require("dotenv").config();
@@ -38,6 +39,9 @@ app.use(session({ cookie: { maxAge: 60000 } }));
 app.use(flash());
 // End use express flash
 
+// TinyMCE
+app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
+// End TinyMCE
 
 // Nhúng system.js (config)
 const systemConfig = require("./config/system");

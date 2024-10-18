@@ -37,3 +37,4 @@ Các bước thiết lập dự án:
 
 * Một số thư viện
 npm i multer: upload ảnh từ máy 
+npm i --save tinymce: bộ soạn thảo văn bản
