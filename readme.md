@@ -39,3 +39,4 @@ Các bước thiết lập dự án:
 npm i multer: upload ảnh từ máy 
 npm i --save tinymce: bộ soạn thảo văn bản
 npm i md5 : mã hóa String(password)
+npm i nodemailer : gửi OTP về mail
