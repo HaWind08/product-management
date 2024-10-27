@@ -1,13 +1,12 @@
 // Nhúng model
 const Product = require("../../models/product.model");
+const ProductCategory = require("../../models/product-category.model");
 
+const createTreeHelper = require("../../helpers/createTree");
 const systemConfig = require("../../config/system");
 
-// Nhúng filterStatus (helpers)
 const filterStatuHelper = require("../../helpers/filterStatus");
-// Nhúng search (helpers)
 const searchHelper = require("../../helpers/search");
-// Nhúng pagination (helpers)
 const paginationHelper = require("../../helpers/pagination");
 
 // [GET] /admin/products
@@ -47,7 +46,7 @@ module.exports.index = async (req, res) => {
     // Sort
     let sort = {};
 
-    if(req.query.sortKey && req.query.sortValue) {
+    if (req.query.sortKey && req.query.sortValue) {
         sort[req.query.sortKey] = req.query.sortValue;
     } else {
         sort.position = "desc";
@@ -150,9 +149,18 @@ module.exports.deleteItem = async (req, res) => {
 
 // [GET] /admin/products/create
 module.exports.create = async (req, res) => {
+    let find = {
+        deleted: false,
+    };
+
+    const category = await ProductCategory.find(find);
+
+    const newCategory = createTreeHelper.tree(category);
+
     res.render("admin/pages/products/create.pug", {
-        pageTitle: "Thêm mới sản phẩm"
+        pageTitle: "Thêm mới sản phẩm",
         // in ra giao diện --> view 
+        category: newCategory
     });
 };
 
@@ -185,10 +193,14 @@ module.exports.edit = async (req, res) => {
 
         const product = await Product.findOne(find);
 
+        const category = await ProductCategory.find({deleted: false});
+        const newCategory = createTreeHelper.tree(category);
+
         res.render("admin/pages/products/edit.pug", {
             pageTitle: "Chỉnh sửa sản phẩm",
             // in ra giao diện --> view
-            product: product
+            product: product,
+            category: newCategory
         });
     } catch (error) {
         req.flash("error", "Không tìm thấy sản phẩm!")
