@@ -5,10 +5,10 @@ block main
     +alert-error(5000)
     +alert-success(5000)
 
-    h1(class="mb-4") Thêm mới nhóm quyền
+    h1(class="mb-4") Chỉnh sửa nhóm quyền
 
     form(
-        action=`${prefixAdmin}/roles/create`
+        action=`${prefixAdmin}/roles/edit/${data.id}?_method=PATCH`
         method="POST"
     )
         div(class="form-group")
@@ -19,6 +19,7 @@ block main
                 id="title"
                 name="title"
                 required
+                value=data.title
             )
         div(class="form-group")
             label(for="desc") Mô tả
@@ -27,9 +28,10 @@ block main
                 class="form-control"
                 id="desc"
                 name="description"
+                value=data.description
             )
         div(class="form-group")
             button(
                 type="submit"
                 class="btn btn-primary"
-            ) Tạo mới
+            ) Cập nhật
