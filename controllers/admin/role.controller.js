@@ -58,7 +58,7 @@ module.exports.edit = async (req, res) => {
     }
 };
 
-// [GET] /admin/roles/edit/:id
+// [PATCH] /admin/roles/edit/:id
 module.exports.editPatch = async (req, res) => {
     try {
         const id = req.params.id;
@@ -68,5 +68,41 @@ module.exports.editPatch = async (req, res) => {
     } catch (error) {
         req.flash("error", "Cập nhật nhóm quyền thất bại!");
     };
+    res.redirect("back");
+};
+
+// [GET] /admin/roles/permissions
+module.exports.permissions = async (req, res) => {
+    let find = {
+        deleted: false
+    };
+
+    const records = await Role.find(find);
+
+    res.render("admin/pages/roles/permissions", {
+        pageTitle: "Phân quyền",
+        // --> view (permissions.pug)
+        records: records
+    });
+};
+
+// [PATCH] /admin/roles/permissions
+module.exports.permissionsPatch = async (req, res) => {
+    // req.body : tất cả dữ liệu gửi qua form
+    // console.log(req.body); 
+    // console.log(req.body.permissions); 
+
+    // chuyển JSON thành mảng
+    const permissions = JSON.parse(req.body.permissions);
+
+    for (const item of permissions) {
+        const id = item.id;
+        const permissions = item.permissions;
+        await Role.updateOne({ _id: id }, { permissions: permissions });
+    }
+
+    // console.log(permissions);
+
+    req.flash("success", "Cập nhật phân quyền thành công")
     res.redirect("back");
 };

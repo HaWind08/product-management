@@ -13,8 +13,8 @@ router.get("/edit/:id", controller.edit);
 
 router.patch("/edit/:id", controller.editPatch);
 
+router.get("/permissions", controller.permissions);
 
-
-
+router.patch("/permissions", controller.permissionsPatch); // nhận dữ liệu từ form frontend gửi qua
 
 module.exports = router;
