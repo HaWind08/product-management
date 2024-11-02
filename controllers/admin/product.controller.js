@@ -188,7 +188,7 @@ module.exports.deleteItem = async (req, res) => {
     );
 
     // Thông báo
-    // req.flash("success", `Đã xóa thành công sản phẩm!`);
+    req.flash("success", `Đã xóa thành công sản phẩm!`);
     res.redirect("back");
 };
 
