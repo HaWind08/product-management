@@ -71,6 +71,7 @@ npm i mongoose-slug-updater:
                     const slug = require("mongoose-slug-updater");
                     mongoose.plugin(slug);
 npm i mongodb: kết nối CSDL Online
+npm i moment: chuyển đổi ngày giờ String thành dạng thông dụng
 
 
 Includes

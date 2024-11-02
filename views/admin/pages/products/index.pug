@@ -12,6 +12,7 @@ include ../../mixins/formChangeMulti.pug
 include ../../mixins/alert.pug
 //- Nhúng mixin (sort)
 include ../../mixins/sort.pug
+include ../../mixins/moment.pug
 
 block main
     +alert-success(5000)
@@ -63,6 +64,7 @@ block main
                                 th Giá
                                 th Vị trí
                                 th Trạng thái
+                                th Người tạo
                                 th Hoạt động
                         
                         tbody
@@ -128,6 +130,10 @@ block main
                                                     class="badge badge-secondary"
                                                 ) Dừng hoạt động
                                     td 
+                                        p #{item.accountFullName}
+                                        p 
+                                            +formatDateTime(item.createdBy.createdAt)
+                                    td 
                                         a(
                                             href=`${prefixAdmin}/products/detail/${item.id}`
                                             class="btn btn-secondary btn-sm"
@@ -135,7 +141,7 @@ block main
                                         if(role.permissions.includes("products_edit"))
                                             a(
                                                 href=`${prefixAdmin}/products/edit/${item.id}`
-                                                class="btn btn-warning btn-sm"
+                                                class="btn btn-warning btn-sm ml-1"
                                             ) Sửa
                                         if(role.permissions.includes("products_delete"))
                                             button(

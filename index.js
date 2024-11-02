@@ -9,6 +9,8 @@ const cookieParser = require("cookie-parser");
 const session = require("express-session");
 //Nhúng express flash (thông báo)
 const flash = require("express-flash");
+//Nhúng moment (chuyển đổi ngày tháng)
+const moment = require("moment");
 const path = require("path");
 
 //Nhúng env
@@ -46,6 +48,7 @@ app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce
 // Nhúng system.js (config)
 const systemConfig = require("./config/system");
 app.locals.prefixAdmin = systemConfig.prefixAdmin; // tạo biến tòan cục để file pug dùng
+app.locals.moment = moment;
 
 // Nhúng file tĩnh
 app.use(express.static(`${__dirname}/public`));

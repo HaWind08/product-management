@@ -16,7 +16,7 @@ module.exports.requireAuth = async (req, res, next) => {
                 _id: user.role_id
             }).select("title permissions");
 
-            //Trả thông tin user ra giao diện (bất kỳ file pug nào cũng có)
+            //Trả thông tin user ra giao diện (bất kỳ file pug(controller) nào cũng có)
             res.locals.user = user;
             res.locals.role = role;
             next();

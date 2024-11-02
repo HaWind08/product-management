@@ -1,6 +1,7 @@
 // Nhúng model
 const Product = require("../../models/product.model");
 const ProductCategory = require("../../models/product-category.model");
+const Account = require("../../models/accounts.model"); 
 
 const createTreeHelper = require("../../helpers/createTree");
 const systemConfig = require("../../config/system");
@@ -58,9 +59,19 @@ module.exports.index = async (req, res) => {
         .limit(objectPagination.limitItems)
         .skip(objectPagination.skip);
 
+    for (const product of products) {
+        const user = await Account.findOne({
+            _id: product.createdBy.account_id
+        });
+
+        if(user) {
+            product.accountFullName = user.fullName; //add key accountFullName
+        };
+    }
+
     res.render("admin/pages/products/index.pug", {
         pageTitle: "Danh sách sản phẩm",
-        // in ra giao diện --> view 
+        //--> view (index.pug)
         products: products,
         filterStatus: filterStatus,
         keyword: objectSearch.keyword,
@@ -103,7 +114,11 @@ module.exports.changeMulti = async (req, res) => {
                 { _id: { $in: ids } },
                 {
                     deleted: true,
-                    deletedAt: new Date()
+                    // deletedAt: new Date()
+                    deletedBy: {
+                        account_id: res.locals.user.id,
+                        deletedAt: new Date()
+                    }
                 }
             );
             // Thông báo
@@ -138,12 +153,16 @@ module.exports.deleteItem = async (req, res) => {
         { _id: id },
         {
             deleted: true,
-            deletedAt: new Date()
+            // deletedAt: new Date()
+            deletedBy: {
+                account_id: res.locals.user.id,
+                deletedAt: new Date()
+            }
         }
     );
+
     // Thông báo
     req.flash("success", `Đã xóa thành công sản phẩm!`);
-
     res.redirect("back");
 };
 
@@ -175,6 +194,11 @@ module.exports.createPost = async (req, res) => {
         req.body.position = countProducts + 1
     } else {
         req.body.position = parseInt(req.body.position);
+    };
+
+    // logs lịch sử thay đổi sản phẩm
+    req.body.createdBy = { //add key vào bảng product
+        account_id: res.locals.user.id
     };
 
     const product = new Product(req.body);
