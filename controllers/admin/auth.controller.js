@@ -5,20 +5,22 @@ const systemConfig = require("../../config/system");
 
 // [GET] /admin/auth/login 
 module.exports.login = async (req, res) => {
-    res.render("admin/pages/auth/login", {
+    res.render("admin/pages/auth/login.pug", {
         pageTitle: "Trang đăng nhập"
+        // --> view (login.pug)
     });
 };
 
-// [GET] /admin/auth/login 
+// [POST] /admin/auth/login 
 module.exports.loginPost = async (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
 
     const user = await Account.findOne({
-        email: req.body.email,
+        email: email,
         deleted: false
     });
+    console.log(user);
     
     if(!user){
         req.flash("error", "Email không tồn tại!");
@@ -38,13 +40,12 @@ module.exports.loginPost = async (req, res) => {
         return;
     };
 
-    res.cookie("token", user.token);
+    res.cookie("token", user.token); //lưu cookie (kiểm tra token người dùng/admin) 
     res.redirect(`${systemConfig.prefixAdmin}/dashboard`);
 };
 
 // [GET] /admin/auth/logout 
 module.exports.logout = async (req, res) => {
-    // Xóa token trong cookie
-    res.clearCookie("token");
+    res.clearCookie("token"); // Xóa token trong cookie
     res.redirect(`${systemConfig.prefixAdmin}/auth/login`);
 };
