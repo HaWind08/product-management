@@ -1,6 +1,8 @@
 // Nhúng model
 const Product = require("../../models/product.model");
 
+const productsHelper = require("../../helpers/product");
+
 // [GET] /products 
 module.exports.index = async (req, res) => {
     // get data
@@ -9,12 +11,8 @@ module.exports.index = async (req, res) => {
         deleted: false
     }).sort({ position: "desc" });
 
-    const newProduct = products.map(item => {
-        item.priceNew = (item.price * (100 - item.discountPercentage) / 100).toFixed(0);
-        return item;
-    });
-
-    console.log(products);
+    const newProduct = productsHelper.priceNewProducts(products);
+    // console.log(products);
 
     res.render("client/pages/products/index.pug", {
         pageTitle: "Danh sach san pham",
