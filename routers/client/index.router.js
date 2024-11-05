@@ -8,12 +8,14 @@ const checkoutRouter = require("./checkout.router");
 const userMiddleware = require("../../middlewares/client/user.middleware"); //router private
 const categoryMiddleware = require("../../middlewares/client/category.middleware");
 const cartMiddleware = require("../../middlewares/client/cart.middleware");
+const settingMiddleware = require("../../middlewares/client/setting.middleware"); // dùng bất cứ đâu
 
 
 module.exports = (app) => {
     app.use(userMiddleware.infoUser);
     app.use(categoryMiddleware.category);
     app.use(cartMiddleware.cartId);
+    app.use(settingMiddleware.settingGeneral);
 
     app.use('/', homeRouter);
 
