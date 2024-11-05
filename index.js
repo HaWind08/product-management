@@ -56,6 +56,11 @@ app.use(express.static(`${__dirname}/public`));
 // Gọi router
 router(app);
 routerAdmin(app);
+app.get("*", (req, res) => {
+    res.render("client/pages/errors/404.pug", {
+        pageTitle: "404 Not Found"
+    });
+})
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
