@@ -10,7 +10,7 @@ module.exports.cartId = async (req, res, next) => {
         await cart.save();
         console.log(cart);
 
-        const expiresCookies = 365 * 24 * 60 * 60 * 1000;
+        const expiresCookies = 30 * 24 * 60 * 60 * 1000;
         res.cookie("cartId", cart.id, { expires: new Date(Date.now() + expiresCookies) });
     } else {
         // Lấy ra thôi

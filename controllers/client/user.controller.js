@@ -1,5 +1,6 @@
 const User = require("../../models/user.model");
 const ForgotPassword = require("../../models/forgot-password.model");
+const Cart = require("../../models/cart.model");
 const md5 = require("md5");
 
 const generateHelper = require("../../helpers/generate");
@@ -70,6 +71,21 @@ module.exports.loginPost = async (req, res) => {
         return;
     };
 
+
+    // Giỏ hàng sau khi đăng nhập
+    const cart = await Cart.findOne({
+        user_id: user.id //tìm xem có giỏ hàng chưa 
+    });
+
+    if (cart) {
+        res.cookies("cartId", cart.id);
+    } else {
+        await Cart.updateOne(
+            { _id: req.cookies.cartId },
+            { user_id: user.id } //data update
+        );
+    }
+
     res.cookie("tokenUser", user.tokenUser);
     res.redirect("/");
 };
@@ -77,6 +93,7 @@ module.exports.loginPost = async (req, res) => {
 // [GET] /user/logout
 module.exports.logout = async (req, res) => {
     res.clearCookie("tokenUser");
+    res.clearCookie("cartId");
     res.redirect("/");
 };
 
@@ -181,3 +198,10 @@ module.exports.resetPasswordPost = async (req, res) => {
 
     res.redirect("/");
 };
+
+// [POST] /user/password/rest
+module.exports.info = async (req, res) => {
+    res.render("client/pages/user/info", {
+        pageTitle: "Thông tin tài khoản",
+    });
+}
