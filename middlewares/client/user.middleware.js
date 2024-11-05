@@ -9,7 +9,7 @@ module.exports.infoUser = async (req, res, next) => {
         }).select("-password");
 
         if (user) {
-            res.locals.user = user;
+            res.locals.user = user; //nếu đăng nhập thì trả thông tin user ra
         };
     };
 
