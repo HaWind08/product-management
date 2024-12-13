@@ -43,13 +43,17 @@ Các bước thiết lập dự án:
 3. Cấu hình Database
     ● Tạo database: product-management
     ● Tạo collection: products
-    ● Insert Data (Gửi trong lúc học)
+    ● Insert Data
     ● Cài đặt Mongoose
         + npm i mongoose
 
 * Một số thư viện
 npm i multer: upload ảnh từ máy 
 npm i --save tinymce: bộ soạn thảo văn bản
+                    app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
+                    const path = require("path");
+                    Tạo file js
+                    Nhúng tinymce vào pug
 npm i md5 : mã hóa String(password)
 npm i nodemailer : gửi OTP về mail
 npm i body-parser: trả về req.body

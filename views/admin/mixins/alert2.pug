@@ -1,0 +1,44 @@
+//- mixin alert-success(time)
+//-     - if (messages.success)
+//-         .toastAlert.toastAlert-success(class=messages.success ? 'active' : '')
+//-             .toastAlert-content
+//-                 i.fas.fa-solid.fa-check.check
+//-                 .message
+//-                     span.text.text-1 Success
+//-                     span.text.text-2 #{messages.success} 
+//-             i.fa-solid.fa-xmark.close
+//-             .progress(class=messages.success ? 'active' : '') 
+
+//- mixin alert-error(time)
+//-     - if (messages.error)
+//-         .toastAlert.toastAlert-error(class=messages.error ? 'active' : '')
+//-             .toastAlert-content
+//-                 i.fas.fa-solid.fa-xmark.check 
+//-                 .message
+//-                     span.text.text-1 Error
+//-                     span.text.text-2 #{messages.error} 
+//-             i.fa-solid.fa-xmark.close
+//-             .progress(class=messages.error ? 'active' : '')
+
+mixin alert-success(time)
+    - if (messages.success)
+        .toastAlert.toastAlert-success(show-alert data-time=messages.success ? time : 5000)
+            .toastAlert-content
+                i.fas.fa-solid.fa-check.check
+                .message
+                    span.text.text-1 Success
+                    span.text.text-2 #{messages.success} 
+            i.fa-solid.fa-xmark.close(close-alert)
+            .progress(class=messages.success ? 'active' : '')
+
+mixin alert-error(time)
+    - if (messages.error)
+        .toastAlert.toastAlert-error(show-alert data-time=messages.error ? time : 5000)
+            .toastAlert-content
+                i.fas.fa-solid.fa-xmark.check
+                .message
+                    span.text.text-1 Error
+                    span.text.text-2 #{messages.error} 
+            i.fa-solid.fa-xmark.close(close-alert)
+            .progress(class=messages.error ? 'active' : '')
+

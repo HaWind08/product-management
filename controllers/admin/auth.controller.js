@@ -33,7 +33,8 @@ module.exports.loginPost = async (req, res) => {
     };
 
     if (md5(password) != user.password) {
-        req.flash("error", "Mật khẩu không chính xác!");
+        // req.flash("error", "Mật khẩu không chính xác!");
+        req.flash("success", "Mật khẩu không chính xác!");
         res.redirect("back");
         return;
     };

@@ -4,11 +4,13 @@ const userRouter = require("./user.router");
 const searchRouter = require("./search.router");
 const cartRouter = require("./cart.router");
 const checkoutRouter = require("./checkout.router");
+const chatRouter = require("./chat.router");
 
 const userMiddleware = require("../../middlewares/client/user.middleware"); //router private
 const categoryMiddleware = require("../../middlewares/client/category.middleware");
 const cartMiddleware = require("../../middlewares/client/cart.middleware");
 const settingMiddleware = require("../../middlewares/client/setting.middleware"); // dùng bất cứ đâu
+const authMiddleware = require("../../middlewares/client/auth.middleware");
 
 
 module.exports = (app) => {
@@ -28,5 +30,7 @@ module.exports = (app) => {
     app.use("/cart", cartRouter);
 
     app.use("/checkout", checkoutRouter);
+
+    app.use("/chat", authMiddleware.requireAuth, chatRouter);
 
 };

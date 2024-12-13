@@ -12,6 +12,11 @@ const flash = require("express-flash");
 //Nhúng moment (chuyển đổi ngày tháng)
 const moment = require("moment");
 const path = require("path");
+// SocketIO
+const { createServer } = require('node:http');
+const { join } = require('node:path');
+const { Server } = require('socket.io');
+
 
 //Nhúng env
 require("dotenv").config();
@@ -30,6 +35,11 @@ const port = process.env.PORT;
 
 app.set("views", `${__dirname}/views`);
 app.set("view engine", "pug");
+
+// Use socketIO
+const server = createServer(app);
+const io = new Server(server);
+global._io = io;
 
 // use method override
 app.use(methodOverride("_method"));
@@ -62,6 +72,6 @@ app.get("*", (req, res) => {
     });
 })
 
-app.listen(port, () => {
+server.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
 });

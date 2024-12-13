@@ -8,7 +8,6 @@ module.exports.cartId = async (req, res, next) => {
         // Tạo giỏ hàng
         const cart = new Cart();
         await cart.save();
-        console.log(cart);
 
         const expiresCookies = 30 * 24 * 60 * 60 * 1000;
         res.cookie("cartId", cart.id, { expires: new Date(Date.now() + expiresCookies) });
@@ -18,7 +17,8 @@ module.exports.cartId = async (req, res, next) => {
             _id: req.cookies.cartId
         });
 
-        cart.totalQuantity = cart.products.reduce((sum, item) => sum + item.quantity, 0);
+        // cart.totalQuantity = cart.products.reduce((sum, item) => sum + item.quantity, 0);
+        cart.totalQuantity = (cart.products || []).reduce((sum, item) => sum + (item.quantity || 0), 0);
         res.locals.miniCart = cart;
     };
 
