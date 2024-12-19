@@ -296,3 +296,19 @@
 }
 
 /* end chat */
+
+/* emoji */
+.tooltip {
+    visibility: hidden;
+}
+
+.tooltip.shown {
+    visibility: visible;
+    opacity: 1;
+}
+
+.button-icon {
+    color: #FE5DA3;
+}
+
+/* End emoji */

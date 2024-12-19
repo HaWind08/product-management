@@ -20,7 +20,6 @@ block main
                                     .inner-name #{chat.infoUser.fullName}
                                 .inner-content
                                     | #{chat.content}
-                                   
                     .inner-foot
                         form(
                             class="inner-form"
@@ -31,5 +30,10 @@ block main
                                 placeholder="Nhập nội dung..."
                                 name="content"
                             )
+                            span(class="button-icon btn btn-light mx-2")
+                                i.fa-regular.fa-face-smile
                             button 
                                 i.fa-solid.fa-paper-plane
+
+    div(class="tooltip" role="tooltip")
+        emoji-picker
